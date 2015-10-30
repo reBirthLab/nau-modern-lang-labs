@@ -9,7 +9,7 @@ namespace Phonebook
 {
     public partial class MainForm : Form
     {
-        static public string DBFile = Application.StartupPath + "\\database";
+        static public string DBFile = Application.StartupPath + "\\database.xml";
         static public XDocument xDocument;
         static public string Caption = "Phonebook";
 
@@ -25,10 +25,9 @@ namespace Phonebook
                 ItemForm newForm = new ItemForm(true, false);
                 newForm.Text = "Add New Item";
                 newForm.lableRegDate.Text = DateTime.Now.ToString();
+
                 newForm.ShowDialog();
                 LoadPhoneBookItems();
-                int contactsNumbers = xDocument.Descendants("Item").Count();
-                this.Text = Caption + ": " + contactsNumbers.ToString() + " Contacts";
             }
             catch (Exception ex)
             {
@@ -39,6 +38,7 @@ namespace Phonebook
         void buttonClearSearchTextBox_Click(object sender, EventArgs e)
         {
             textBoxSearch.Text = "";
+            dateTimePicker1.Value = DateTime.Now;
             LoadPhoneBookItems();
         }
 
@@ -57,18 +57,15 @@ namespace Phonebook
 
                 ItemForm editForm = new ItemForm(false, true);
                 editForm.Text = "Edit Item";
-
                 editForm.textBoxAddress.Text = item.Attribute("Address").Value;
                 editForm.textBoxEMail.Text = item.Attribute("Email").Value;
                 editForm.textBoxMobile.Text = item.Attribute("Mobile").Value;
                 editForm.textBoxName.Text = item.Attribute("Name").Value;
                 editForm.textBoxPhone.Text = item.Attribute("Phone").Value;
                 editForm.lableRegDate.Text = item.Attribute("RegDate").Value;
-
                 editForm.ItemID = id;
 
                 editForm.ShowDialog();
-
                 LoadPhoneBookItems();
             }
             catch (Exception ex)
@@ -88,10 +85,8 @@ namespace Phonebook
                             where q.Attribute("ID").Value == id
                             select q).First();
                 item.Remove();
-                WriteToFile(xDocument.ToString(SaveOptions.DisableFormatting), DBFile);
+                WriteToFile(xDocument.ToString(), DBFile);
                 LoadPhoneBookItems();
-                int contactsNumbers = xDocument.Descendants("Item").Count();
-                Text = Caption + ": " + contactsNumbers.ToString() + " Contacts";
             }
             catch (Exception ex)
             {
@@ -112,7 +107,10 @@ namespace Phonebook
 
                 var items = from q in xDocument.Descendants("Item") select q;
                 if (items.Count() < 1)
+                {
+                    Text = Caption + ": 0 Contacts";
                     return;
+                }
 
                 foreach (var item in items)
                 {
@@ -128,6 +126,9 @@ namespace Phonebook
 
                     listViewItems.Name = "Item" + item.Attribute("ID").Value;
                     listView1.Items.Add(listViewItems);
+
+                    int contactsNumbers = xDocument.Descendants("Item").Count();
+                    Text = Caption + ": " + contactsNumbers.ToString() + " Contacts";
                 }
             }
             catch (Exception ex)
@@ -150,13 +151,11 @@ namespace Phonebook
                         new XElement("PhoneBook",
                             new XElement("Items")));
 
-                    WriteToFile(xDocument.ToString(SaveOptions.DisableFormatting), DBFile);
+                    WriteToFile(xDocument.ToString(), DBFile);
                 }
 
                 xDocument = XDocument.Parse(ReadFromFile(DBFile));
                 LoadPhoneBookItems();
-                int contactsNumbers = xDocument.Descendants("Item").Count();
-                Text = Caption + ": " + contactsNumbers.ToString() + " Contacts";
             }
             catch (Exception ex)
             {
@@ -183,6 +182,7 @@ namespace Phonebook
                     return;
                 }
 
+                dateTimePicker1.Value = DateTime.Now;
                 listView1.Items.Clear();
 
                 var query = from q in xDocument.Descendants("Item")
@@ -226,9 +226,49 @@ namespace Phonebook
             buttonEdit_Click(null, null);
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
+            try
+            {
+                if (dateTimePicker1.Value == DateTime.Now)
+                {
+                    LoadPhoneBookItems();
+                    return;
+                }
 
+                textBoxSearch.Text = "";
+                listView1.Items.Clear();
+
+                var query = from q in xDocument.Descendants("Item")
+                            where q.Attribute("RegDate").Value.Contains(dateTimePicker1.Value.Date.ToShortDateString())
+                            select q;
+
+                if (query.Count() < 1)
+                {
+                    Text = Caption + ": 0 Contacts";
+                    return;
+                }
+
+                foreach (var item in query)
+                {
+                    ListViewItem listViewItems = new ListViewItem(new string[]
+                                                        { item.Attribute("Name").Value,
+                                                          item.Attribute("Phone").Value,
+                                                          item.Attribute("Mobile").Value,
+                                                          item.Attribute("Email").Value,
+                                                          item.Attribute("Address").Value,
+                                                          item.Attribute("RegDate").Value});
+                    listViewItems.Name = "Item" + item.Attribute("ID").Value;
+                    listView1.Items.Add(listViewItems);
+                }
+
+                Text = Caption + ": " + listView1.Items.Count + " Contacts";
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error occurred: {0}", ex);
+            }
         }
 
         public static void WriteToFile(String Data, String FileName)
@@ -247,7 +287,6 @@ namespace Phonebook
             {
                 Console.WriteLine("A file access error occurred: {0}", e.Message);
             }
-
         }
 
         public static string ReadFromFile(String FileName)

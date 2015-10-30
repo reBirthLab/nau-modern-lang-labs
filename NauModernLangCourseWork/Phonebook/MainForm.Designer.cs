@@ -34,6 +34,8 @@ namespace Phonebook
             this.labelSearch = new System.Windows.Forms.Label();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonClearSearchTextBox = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonNew = new System.Windows.Forms.Button();
@@ -74,50 +76,74 @@ namespace Phonebook
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.76487F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.23513F));
+            this.tableLayoutPanel2.ColumnCount = 5;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel2.Controls.Add(this.labelSearch, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBoxSearch, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.buttonClearSearchTextBox, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.dateTimePicker1, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.buttonClearSearchTextBox, 4, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(906, 29);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // labelSearch
             // 
-            this.labelSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.labelSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSearch.AutoSize = true;
-            this.labelSearch.Location = new System.Drawing.Point(12, 6);
+            this.labelSearch.Location = new System.Drawing.Point(3, 6);
             this.labelSearch.Name = "labelSearch";
-            this.labelSearch.Size = new System.Drawing.Size(60, 16);
+            this.labelSearch.Size = new System.Drawing.Size(114, 16);
             this.labelSearch.TabIndex = 5;
-            this.labelSearch.Text = "Search : ";
+            this.labelSearch.Text = "Search by Query : ";
             // 
             // textBoxSearch
             // 
-            this.textBoxSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxSearch.Location = new System.Drawing.Point(87, 3);
+            this.textBoxSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textBoxSearch.Location = new System.Drawing.Point(123, 3);
             this.textBoxSearch.Name = "textBoxSearch";
-            this.textBoxSearch.Size = new System.Drawing.Size(695, 22);
+            this.textBoxSearch.Size = new System.Drawing.Size(360, 22);
             this.textBoxSearch.TabIndex = 0;
             this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
             // 
             // buttonClearSearchTextBox
             // 
             this.buttonClearSearchTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonClearSearchTextBox.Location = new System.Drawing.Point(815, 3);
+            this.buttonClearSearchTextBox.Location = new System.Drawing.Point(816, 3);
             this.buttonClearSearchTextBox.Name = "buttonClearSearchTextBox";
             this.buttonClearSearchTextBox.Size = new System.Drawing.Size(60, 23);
             this.buttonClearSearchTextBox.TabIndex = 6;
             this.buttonClearSearchTextBox.Text = "Clear";
             this.buttonClearSearchTextBox.UseVisualStyleBackColor = true;
             this.buttonClearSearchTextBox.Click += new System.EventHandler(this.buttonClearSearchTextBox_Click);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.dateTimePicker1.Location = new System.Drawing.Point(609, 3);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(174, 22);
+            this.dateTimePicker1.TabIndex = 7;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(499, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 16);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Search by Date:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel3
             // 
@@ -187,7 +213,6 @@ namespace Phonebook
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
             // columnHeaderName
@@ -292,6 +317,8 @@ namespace Phonebook
         private System.Windows.Forms.ColumnHeader columnHeaderPhone;
         private System.Windows.Forms.Button buttonClearSearchTextBox;
         private System.Windows.Forms.ColumnHeader columnHeaderRegDate;
+        private DateTimePicker dateTimePicker1;
+        private Label label1;
     }
 }
 

@@ -28,11 +28,6 @@ namespace Phonebook
 
         }
 
-        void tableLayoutPanel1_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
-        {
-
-        }
-
         private void buttonSubmit_Click(object sender, EventArgs e)
         {
             try
@@ -60,9 +55,7 @@ namespace Phonebook
                     {
                         maxID = (from q in MainForm.xDocument.Descendants("Item") select (int)q.Attribute("ID")).Max();
                     }
-                    catch
-                    {
-                    }
+                    catch { }
 
                     maxID++;
 
@@ -104,7 +97,7 @@ namespace Phonebook
                     theItem.Attribute("Address").Value = textBoxAddress.Text.Trim();
                 }
 
-                MainForm.WriteToFile(MainForm.xDocument.ToString(SaveOptions.DisableFormatting), MainForm.DBFile);
+                MainForm.WriteToFile(MainForm.xDocument.ToString(), MainForm.DBFile);
 
                 Close();
             }
@@ -112,21 +105,6 @@ namespace Phonebook
             {
                 Console.WriteLine("Error occurred: {0}", ex);
             }
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxAddress_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

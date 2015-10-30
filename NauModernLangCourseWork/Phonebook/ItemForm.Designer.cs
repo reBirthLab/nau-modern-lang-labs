@@ -117,7 +117,6 @@
             this.label11.Size = new System.Drawing.Size(94, 16);
             this.label11.TabIndex = 15;
             this.label11.Text = "Register Date:";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // buttonSubmit
             // 
@@ -179,7 +178,6 @@
             this.textBoxAddress.Name = "textBoxAddress";
             this.textBoxAddress.Size = new System.Drawing.Size(365, 22);
             this.textBoxAddress.TabIndex = 14;
-            this.textBoxAddress.TextChanged += new System.EventHandler(this.textBoxAddress_TextChanged);
             // 
             // ItemForm
             // 
